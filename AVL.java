@@ -17,28 +17,28 @@ class AVL{
         
         while(true){
             parent = current;
-            if(newNode.data < root.data){
+            if(n < current.data){
                     current = current.leftChild;
                     if(current == null){
                         parent.setLeftChild(newNode);
                         return;
                     }
-                    else{
-                        current = current.rightChild;
-                        if(current == null){
-                            parent.setRightChild(newNode);
-                            return;
-                        }
-                    }
+            }
+            else{
+                current = current.rightChild;
+                if(current == null){
+                    parent.setRightChild(newNode);
+                    return;
+                }
             }
         }
 
     }
 
-    public Node getPredecessor(){
+    public Node getPredecessor(Node n){
         Node preDecessor = null;
         Node preDecessorParent = null;
-        Node current = root.leftChild;
+        Node current = n.leftChild;
 
         while(current != null){
             preDecessorParent = preDecessor;
@@ -48,16 +48,16 @@ class AVL{
 
         if(preDecessor != root.leftChild){
             preDecessorParent.rightChild = preDecessor.leftChild;
-            preDecessor.leftChild = root.leftChild;
+            preDecessor.leftChild = n.leftChild;
         }
 
         return preDecessor;
     }
 
-    public Node getSuccessor(){
+    public Node getSuccessor(Node n){
         Node successor = null;
         Node successorParent = null;
-        Node current = root.rightChild;
+        Node current = n.rightChild;
 
         while(current != null){
             successorParent = successor;
@@ -67,7 +67,7 @@ class AVL{
 
         if(successor != root.rightChild){
             successorParent.leftChild = successor.rightChild;
-            successor.rightChild = root.rightChild;
+            successor.rightChild = n.rightChild;
         }
 
         return successor;
@@ -129,7 +129,7 @@ class AVL{
             }
         }
         else if(current.leftChild != null && current.rightChild != null){
-            Node successor = getSuccessor();
+            Node successor = getSuccessor(current);
 
             if(current == root){
                 root = successor;
@@ -150,10 +150,39 @@ class AVL{
     }
 
     public void print(Node root){
-        if(root != null){
-            print(root.leftChild);
-            System.out.println(" " +root.data);
-            print(root.rightChild);
-        }
+		if(root!=null){
+			print(root.leftChild);
+			System.out.print(root.data +" ");
+			print(root.rightChild);
+		}
+	}
+
+    public static void main(String[] args) {
+        AVL tree = new AVL();
+        tree.insert(3);
+        tree.insert(8);
+        tree.insert(1);
+        tree.insert(4);
+        tree.insert(6);
+        tree.insert(2);
+        tree.insert(10);
+        tree.insert(9);
+        tree.insert(20);
+        tree.insert(25);
+        tree.insert(15);
+        tree.insert(16);
+        tree.print();
+        System.out.println();
+        tree.delete(2);
+        tree.print();
+        System.out.println();
+        tree.delete(4);
+        tree.print();
+        System.out.println();
+        tree.delete(10);
+        tree.print();
+        System.out.println();
+        tree.delete(3);
+        tree.print();
     }
 }
